@@ -3,30 +3,36 @@ package node;
 public class Node {
 
 	private double[] value;
-	private Node left, right;
-	
-	public Node(double[] value, Node left, Node right) {
+	private Node left, right, padre;
+	private boolean horizontal;
+
+	public Node(double[] value, Node padre, Node left, Node right,
+			boolean horizontal) {
 		this.value = value;
-		this.left = left;
+		this.padre = padre;
 		this.right = right;
+		this.left = left;
+		this.horizontal = horizontal;
 	}
-	
+
 	public double[] getValue() {
 		return value;
 	}
-	public void setValue(double[] value) {
-		this.value = value;
-	}
+
 	public Node getLeft() {
 		return left;
 	}
-	public void setLeft(Node left) {
-		this.left = left;
-	}
+
 	public Node getRight() {
 		return right;
 	}
-	public void setRight(Node right) {
-		this.right = right;
+
+	public Node getPadre() {
+		return padre;
 	}
+
+	public boolean isHorizontal() {
+		return horizontal;
+	}
+
 }
