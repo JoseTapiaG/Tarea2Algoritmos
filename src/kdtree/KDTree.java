@@ -20,24 +20,13 @@ public abstract class KDTree {
 		int countA = 0;
 		int countB = 0;
 		for (double[] punto : puntos) {
-			if (splitAxis == y) {
-				// eje y
-				if (punto[1] > newSplitAxis) {
-					puntosA[countA] = punto;
-					countA++;
-				} else {
-					puntosB[countB] = punto;
-					countB++;
-				}
+			
+			if (punto[splitAxis] > newSplitAxis) {
+				puntosA[countA] = punto;
+				countA++;
 			} else {
-				// eje x
-				if (punto[0] > newSplitAxis) {
-					puntosA[countA] = punto;
-					countA++;
-				} else {
-					puntosB[countB] = punto;
-					countB++;
-				}
+				puntosB[countB] = punto;
+				countB++;
 			}
 		}
 		if (splitAxis == x){

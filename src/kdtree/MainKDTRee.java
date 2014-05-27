@@ -8,34 +8,18 @@ public class MainKDTRee extends KDTree {
 		double min, max;
 		double newAxis;
 
-		if (splitAxis == y) {
-			// eje y
-			min = puntos[0][1];
-			max = puntos[0][1];
-			for (double[] punto : puntos) {
-				if (punto[1] > max) {
-					max = punto[1];
-				}
-				if (punto[1] < min) {
-					min = punto[1];
-				}
+		min = puntos[0][splitAxis];
+		max = puntos[0][splitAxis];
+		for (double[] punto : puntos) {
+			if (punto[splitAxis] > max) {
+				max = punto[splitAxis];
 			}
-			newAxis = (max + min)/2.0;
-		} else {
-			// eje x
-			min = puntos[0][0];
-			max = puntos[0][0];
-			for (double[] punto : puntos) {
-				if (punto[0] > max) {
-					max = punto[0];
-				}
-				if (punto[0] < min) {
-					min = punto[0];
-				}
+			if (punto[splitAxis] < min) {
+				min = punto[splitAxis];
 			}
-			newAxis = (max + min)/2.0;
 		}
+		newAxis = (max + min)/2.0;
+
 		return newAxis;
 	}
-
 }
