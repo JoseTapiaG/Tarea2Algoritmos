@@ -2,6 +2,8 @@ package kdtree;
 
 public class MedianKDTRee extends KDTree{
 
+	
+	
 	@Override
 	public double getSplitAxis(double[][] puntos, int splitAxis) {
 		
@@ -15,8 +17,8 @@ public class MedianKDTRee extends KDTree{
 	 */
 	private double medianOfMedians(double[][] puntos, int axis,int start,int end){
 		switch (end-start){
-		case 1: return puntos[0][axis];
-		case 2: return (puntos[0][axis]+puntos[1][axis])/2;
+		case 1: return puntos[start][axis];
+		case 2: return (puntos[start][axis]+puntos[start+1][axis])/2;
 		case 3: return medianOfThree(puntos, axis,start);
 		case 4: return medianOfFour(puntos, axis,start);
 		case 5: return medianOfFive(puntos,axis,start);
@@ -28,7 +30,7 @@ public class MedianKDTRee extends KDTree{
 				
 				for(int j=start; j<=end; j+=5){
 
-					medians[i++][axis]=medianOfMedians(puntos, axis,j,j+4);
+					medians[i++][axis]=medianOfMedians(puntos, axis,j,Math.min(j+4, end));
 					
 				}
 				
@@ -40,63 +42,63 @@ public class MedianKDTRee extends KDTree{
 	
 
 	private double medianOfThree(double[][] puntos, int axis, int start){
-		if(puntos[0][axis] > puntos[2][axis])
-			swap(puntos,0,2);
+		if(puntos[start][axis] > puntos[start+2][axis])
+			swap(puntos,start,start+2);
 		
-		if(puntos[0][axis] > puntos[1][axis])
-			swap(puntos,0,1);
+		if(puntos[start][axis] > puntos[start+1][axis])
+			swap(puntos,start,start+1);
 		
-		if(puntos[1][axis] > puntos[2][axis])
-			swap(puntos,1,2);
+		if(puntos[start+1][axis] > puntos[start+2][axis])
+			swap(puntos,start+1,start+2);
 		
-		return puntos[1][axis];
+		return puntos[start+1][axis];
 	}
 	
 	private double medianOfFour(double[][] puntos, int axis, int start){
 		
-		if(puntos[0][axis]>puntos[1][axis])
-			swap(puntos,0,1);
+		if(puntos[start][axis]>puntos[start+1][axis])
+			swap(puntos,start,start+1);
 		
-		if(puntos[2][axis]>puntos[3][axis])
-			swap(puntos,2,3);
+		if(puntos[start+2][axis]>puntos[start+3][axis])
+			swap(puntos,start+2,start+3);
 		
-		if(puntos[0][axis]>puntos[2][axis])
-			swap(puntos,0,2);
+		if(puntos[start][axis]>puntos[start+2][axis])
+			swap(puntos,start,start+2);
 		
-		if(puntos[1][axis]>puntos[3][axis])
-			swap(puntos,1,3);
+		if(puntos[start+1][axis]>puntos[start+3][axis])
+			swap(puntos,start+1,start+3);
 		
-		return (puntos[1][axis]+puntos[2][axis])/2;
+		return (puntos[start+1][axis]+puntos[start+2][axis])/2;
 		
 	}
 	
 	private double medianOfFive(double[][] puntos, int axis, int start){
 
-		if(puntos[0][axis]>puntos[1][axis])
-			swap(puntos, 0,1);
+		if(puntos[start][axis]>puntos[start+1][axis])
+			swap(puntos, start,start+1);
 		
-		if(puntos[2][axis]>puntos[3][axis])
-			swap(puntos,2,3);
+		if(puntos[start+2][axis]>puntos[start+3][axis])
+			swap(puntos,start+2,start+3);
 		
 		//dejar en indice 0 el menor de los 4 (no es mediana)
-		if(puntos[0][axis] > puntos[2][axis])
-			swap(puntos,0,2);
+		if(puntos[start][axis] > puntos[start+2][axis])
+			swap(puntos,start,start+2);
 		
 		//dejar en indice 3 el mayor de los 4 (no es mediana)
-		if(puntos[1][axis] > puntos[3][axis])
-			swap(puntos,1,3);
+		if(puntos[start+1][axis] > puntos[start+3][axis])
+			swap(puntos,start+1,start+3);
 		
-		if(puntos[2][axis] > puntos[4][axis])
-			swap(puntos,1,3);
+		if(puntos[start+2][axis] > puntos[start+4][axis])
+			swap(puntos,start+1,start+3);
 				
 		//dejar en indice 1 el menor de de los segundos 4 (no es mediana)
-		if(puntos[1][axis] > puntos[2][axis])
-			swap(puntos,1,2);
+		if(puntos[start+1][axis] > puntos[start+2][axis])
+			swap(puntos,start+1,start+2);
 
 		//como en el indice 2 se dejo un elemento que es menor que otros 2, 
 		//y no es ni el primero ni segundo elemento menor, es mediana
 		
-		return puntos[2][axis];
+		return puntos[start+2][axis];
 	}
 	
 	/**
