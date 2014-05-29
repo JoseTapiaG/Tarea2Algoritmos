@@ -1,15 +1,17 @@
 package kdtree;
 
+import java.util.ArrayList;
+
 public class MainKDTRee extends KDTree {
 
 	@Override
-	public double getSplitAxis(double[][] puntos, int splitAxis) {
+	public double getSplitAxis(ArrayList<double[]> puntos, int splitAxis) {
 
 		double min, max;
 		double newAxis;
 
-		min = puntos[0][splitAxis];
-		max = puntos[0][splitAxis];
+		min = puntos.get(0)[splitAxis];
+		max = puntos.get(0)[splitAxis];
 		for (double[] punto : puntos) {
 			if (punto[splitAxis] > max) {
 				max = punto[splitAxis];
@@ -19,7 +21,6 @@ public class MainKDTRee extends KDTree {
 			}
 		}
 		newAxis = (max + min)/2.0;
-
 		return newAxis;
 	}
 }

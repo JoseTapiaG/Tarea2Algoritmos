@@ -4,15 +4,12 @@ public class Node {
 
 	private double[] value;
 	private Node left, right, padre;
-	private boolean horizontal;
 
-	public Node(double[] value, Node padre, Node left, Node right,
-			boolean horizontal) {
+	public Node(double[] value, Node padre, Node left, Node right) {
 		this.value = value;
 		this.padre = padre;
 		this.right = right;
 		this.left = left;
-		this.horizontal = horizontal;
 	}
 
 	public double[] getValue() {
@@ -31,8 +28,7 @@ public class Node {
 		return padre;
 	}
 
-	public boolean isHorizontal() {
-		return horizontal;
+	public void setPadre(Node padre) {
+		this.padre = padre;
 	}
-
 }
