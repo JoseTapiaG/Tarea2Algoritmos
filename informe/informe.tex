@@ -1,0 +1,119 @@
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+12pt, % Main document font size
+letterpaper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\begin{flushright}
+\includegraphics[width=8cm]{dcc.jpg}
+\end{flushright}	
+\vskip50mm
+\begin{center}
+% TITLE
+\huge\textbf{Estudio de algoritmos en memoria secundaria}
+\vskip2mm
+% SUBTITLE (optional)
+\LARGE\textit{Tarea numero 2}
+\vskip5mm
+% nombre del curso
+\Large\textbf{Diseño y análisis de Algoritmos}
+\normalsize
+\end{center}
+\vskip70mm
+
+\begin{tabular}{lll}
+\textbf{\textit{Autora}} & : & Romina Romero Oropesa \\
+						& & José Manuel Tapia\\
+\textbf{\textit{Profesor}} & : & Pablo Barceló\\
+\textbf{\textit{Curso}} & : & CC4102 \\ 
+\textbf{\textit{Fecha}} & : & Viernes 6 de Junio, 2014
+\end{tabular}
+
+\newpage
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+\newpage 
+%----------------------------------------------------------------------------------------
+%	Hipótesis
+%----------------------------------------------------------------------------------------
+
+\section{Hipótesis}
+
+Ejemplo de lista:
+%ejemplo lista
+\begin{description}
+\item[Word] Definition
+\item[Concept] Explanation
+\item[Idea] Text
+	\begin{itemize}
+	\item cosa1
+	\item cosa2
+	\end{itemize}
+\end{description}
+ 
+%----------------------------------------------------------------------------------------
+%	Diseño experimental
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Diseño experimental}
+Ejemplo de código
+%ejemplo codigp
+\begin{lstlisting}[language=Java]
+class Hello{
+	static public void main(String[] args){
+		System.out.println("Hello world!\n");
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Resultados}
+
+
+
+\newpage
+
+\section{Análisis e Interpretación}
+Ejemplo ecuación:
+%ejemplo ecuacion
+\begin{equation}
+\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
+\label{eq:refname2}
+\end{equation}
+
+\end{document}
