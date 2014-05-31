@@ -6,8 +6,8 @@ import node.Node;
 
 public abstract class KDTree {
 
-	static public int x = 0;
-	static public int y = 1;
+	static public final int x = 0;
+	static public final int y = 1;
 
 	public Node construirKDTree(ArrayList<double[]> puntos, int splitAxis) {
 
