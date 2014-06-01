@@ -1,30 +1,12 @@
 package main;
 
-import java.util.ArrayList;
-
-import kdtree.MainKDTRee;
 import node.Node;
 
 public class VecinoMasCercano {
-	static public double[] mejorActual;
-	static public double distActual;
+	private double[] mejorActual;
+	private double distActual;
 
-	static public void main(String[] args) {
-		MainKDTRee mainKDTree = new MainKDTRee();
-		ArrayList<double[]> puntos = new ArrayList<double[]>();
-		for (int i = 0; i < 10; i++) {
-			double[] punto = { i, i };
-			puntos.add(punto);
-		}
-		Node root = mainKDTree.construirKDTree(puntos, 0);
-		mejorActual = new double[2];
-		mejorActual[0] = 0;
-		mejorActual[1] = 0;
-		distActual = Double.MAX_VALUE;
-		System.out.println("hola");
-	}
-
-	private double[] vecinoMasCercano(Node root, double[] q) {
+	public double[] vecinoMasCercano(Node root, double[] q) {
 		Node nodoDondeEstaQ = encontrarHojaDondeEstaQ(root, q);
 		buscarMejorSolucion(nodoDondeEstaQ, q);
 		return mejorActual;
@@ -49,10 +31,14 @@ public class VecinoMasCercano {
 	}
 
 	private void buscarMejorSolucion(Node node, double[] q) {
-		if (node.getPadre() == null) {
+		
+		if(node == null){
 			return;
 		}
-
+		
+		if (node.getPadre() == null && node.getRight().isVisitado() && node.getLeft().isVisitado()) {
+			return;
+		}
 		// es hoja
 		if (node.getLeft() == null && node.getRight() == null) {
 			double distNueva = Math.sqrt((Math.pow((q[0] - node.getValue()[0]),
@@ -62,10 +48,12 @@ public class VecinoMasCercano {
 				mejorActual = node.getValue();
 			}
 		} else {
-			if (!node.getLeft().isVisitado() && areaIntersecta(node, q, true)) {
+			if (!node.getLeft().isVisitado() && areaIntersecta(node, q)) {
+				node.getLeft().setVisitado(true);
 				buscarMejorSolucion(node.getLeft(), q);
 			} else if (!node.getRight().isVisitado()
-					&& areaIntersecta(node, q, false)) {
+					&& areaIntersecta(node, q)) {
+				node.getRight().setVisitado(true);
 				buscarMejorSolucion(node.getRight(), q);
 			}
 		}
@@ -73,7 +61,10 @@ public class VecinoMasCercano {
 
 	}
 
-	private boolean areaIntersecta(Node node, double[] q, boolean izq) {
-		return false;
+	private boolean areaIntersecta(Node node, double[] q) {
+		double distNueva = Math
+				.sqrt((Math.pow((q[0] - node.getValue()[0]), 2) + Math.pow(
+						(q[1] - node.getValue()[1]), 2)));
+		return distNueva < distActual;
 	}
 }

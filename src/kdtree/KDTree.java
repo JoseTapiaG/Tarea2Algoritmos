@@ -20,7 +20,7 @@ public abstract class KDTree {
 		ArrayList<double[]> puntosA = new ArrayList<double[]>();
 		ArrayList<double[]> puntosB = new ArrayList<double[]>();
 		for (double[] punto : puntos) {
-			if (punto[splitAxis] > newSplitAxis) {
+			if (punto[splitAxis] < newSplitAxis) {
 				puntosA.add(punto);
 			} else {
 				puntosB.add(punto);
@@ -37,7 +37,7 @@ public abstract class KDTree {
 		} else {
 			Node nodoA = construirKDTree(puntosA, x);
 			Node nodoB = construirKDTree(puntosB, x);
-			Node nodoPadre = new Node(new double[] { newSplitAxis, 0 }, null,
+			Node nodoPadre = new Node(new double[] {0 , newSplitAxis }, null,
 					nodoA, nodoB);
 			nodoA.setPadre(nodoPadre);
 			nodoB.setPadre(nodoPadre);
