@@ -4,7 +4,16 @@ import java.util.ArrayList;
 
 public class MedianKDTRee extends KDTree{
 
-	
+
+	static public void main(String[]args){
+		MedianKDTRee m=new MedianKDTRee();
+		ArrayList<double[]> puntos = new ArrayList<double[]>();
+		for (int i = 0; i < 1000; i++) {
+			double[] punto = { i, i };
+			puntos.add(punto);
+		}
+		System.out.println(m.getSplitAxis(puntos,KDTree.x));
+	}
 	
 	@Override
 	public double getSplitAxis(ArrayList<double[]> puntos, int splitAxis) {
@@ -18,7 +27,7 @@ public class MedianKDTRee extends KDTree{
 	 * @return mediana
 	 */
 	private double medianOfMedians(ArrayList<double[]> puntos, int axis,int start,int end){
-		switch (end-start){
+		switch (end-start+1){
 		case 1: return puntos.get(start)[axis];
 		case 2: return (puntos.get(start)[axis]+puntos.get(start+1)[axis])/2;
 		case 3: return medianOfThree(puntos, axis,start);
@@ -28,15 +37,16 @@ public class MedianKDTRee extends KDTree{
 			{
 				ArrayList<double[]> medians=new ArrayList<double[]>();
 				
-				int i=0;
-				
-				for(int j=start; j<=end; j+=5){
 
-					medians.get(i++)[axis]=medianOfMedians(puntos, axis,j,Math.min(j+4, end));
+				for(int j=start; j<=end; j+=5){
+					
+					double[]pto = new double[2];
+					pto[axis]=medianOfMedians(puntos, axis,j,Math.min(j+4, end));
+					medians.add(pto);
 					
 				}
 				
-				return medianOfMedians(medians, axis,0,medians.size());
+				return medianOfMedians(medians, axis,0,medians.size()-1);
 			}
 		}
 
