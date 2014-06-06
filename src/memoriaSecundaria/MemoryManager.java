@@ -10,7 +10,7 @@ public class MemoryManager {
 	private final int blockSize = 4096;
 	private final int numOfBuffers = 10;
 	//3 longs, 2 double y 1 char
-	private final int bufferSize=42;
+	private final int bufferSize=54;
 	private RandomAccessFile file;
 	private LinkedList<Long> priority;//indica que buffer va a ser sobreescrito
 	private long position;
@@ -24,6 +24,7 @@ public class MemoryManager {
 		priority = new LinkedList<Long>();
 		numOfElements = 0;
 		position = 0;
+		inMemoryNodes = new HashMap<Long, byte[]>();
 	}
 	public void writeBuff(byte[] b, long pos) throws IOException{
 		if(inMemoryNodes.containsKey(pos)){

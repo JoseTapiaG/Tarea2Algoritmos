@@ -28,7 +28,7 @@ public class ExternalMemoryKDTree{
 			MemoryNode nodoA = construirKDTree(puntosA, y);
 			MemoryNode nodoB = construirKDTree(puntosB, y);
 			MemoryNode nodoPadre = new MemoryNode(newSplitAxis, 0 , 'n',
-					nodoA.getPos(), nodoB.getPos());
+					nodoB.getPos(), nodoA.getPos());
 			nodoA.setPadrePos(nodoPadre.getPos());
 			nodoB.setPadrePos(nodoPadre.getPos());
 			return nodoPadre;
@@ -36,7 +36,7 @@ public class ExternalMemoryKDTree{
 			MemoryNode nodoA = construirKDTree(puntosA, x);
 			MemoryNode nodoB = construirKDTree(puntosB, x);
 			MemoryNode nodoPadre = new MemoryNode(0 , newSplitAxis , 'n',
-					nodoA.getPos(), nodoB.getPos());
+					nodoB.getPos(), nodoA.getPos());
 			nodoA.setPadrePos(nodoPadre.getPos());
 			nodoB.setPadrePos(nodoPadre.getPos());
 			return nodoPadre;

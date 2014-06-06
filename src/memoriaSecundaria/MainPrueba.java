@@ -1,21 +1,16 @@
 package memoriaSecundaria;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import kdtree.KDTree;
-import kdtree.MainKDTRee;
-import kdtree.MedianKDTRee;
-import main.VecinoMasCercano;
-import node.Node;
-
 public class MainPrueba {
 
-	static public void main(String[] args) {
-		KDTree mainKDTree = new MainKDTRee();
+	static public void main(String[] args) throws IOException {
+		ExternalMemoryKDTree externalKDTree = new ExternalMemoryKDTree();
 		ArrayList<double[]> puntos = new ArrayList<double[]>();
 		ArrayList<double[]> puntosQ = new ArrayList<double[]>();
-		int n = 100000;
+		int n = 6;
 		int maxRange = 1;
 		Random r = new Random();
 		for (int i = 0; i < n; i++) {
@@ -30,31 +25,46 @@ public class MainPrueba {
 			punto[1] = maxRange * r.nextDouble();
 			puntosQ.add(punto);
 		}
-		VecinoMasCercano vecinoMasCercano = new VecinoMasCercano();
-		Node root = mainKDTree.construirKDTree(puntos, 1);
+		VecinoMasCercanoMemoriaSecundaria vecinoMasCercano = new VecinoMasCercanoMemoriaSecundaria();
+		MemoryNode.setMemoryManager(new MemoryManager(10, "C:/Users/Jose/workspace/Analisis de Algoritmos/Tarea2GIT/Tarea2Algoritmos/src/memoriaSecundaria/ws"));
+		MemoryNode root = externalKDTree.construirKDTree(puntos, 1);
+		root.getLeft();
 		for (double[] q : puntos) {
 			double[] puntoMasCercano = vecinoMasCercano.vecinoMasCercano(root,
 					q);
 			double[] puntoMasCercanoReal = puntoMasCercano(puntos, q);
-
-			/*
-			 * System.out.println("Vecino mas cercano prueba: [" +
-			 * puntoMasCercano[0] + ", " + puntoMasCercano[1] +
-			 * "] Vecino mas cercano real: [" + puntoMasCercanoReal[0] + ", " +
-			 * puntoMasCercanoReal[1]);
-			 */
-
-			if (puntoMasCercano[0] != puntoMasCercanoReal[0]
-					|| puntoMasCercano[1] != puntoMasCercanoReal[1]) {
-				System.out.println("error");
-			}
-			System.out.println("Comparaciones arbol: "
-					+ vecinoMasCercano.getComparaciones()
-					+ "Comparaciones Original: " + n);
-
+			 System.out.println("Vecino mas cercano prueba: [" +
+			 puntoMasCercano[0] + ", " + puntoMasCercano[1] +
+			 "] Vecino mas cercano real: [" + puntoMasCercanoReal[0] + ", " +
+			 puntoMasCercanoReal[1]);
 		}
+		
+		imprimir(root);
+		System.out.println("");
+		imprimir(root);
+		
+		/*if (puntoMasCercano[0] != puntoMasCercanoReal[0]
+		|| puntoMasCercano[1] != puntoMasCercanoReal[1]) {
+	System.out.println("error");
+}
+System.out.println("Comparaciones arbol: "
+		+ vecinoMasCercano.getComparaciones()
+		+ "Comparaciones Original: " + n);*/
 	}
 
+	static public void imprimir(MemoryNode memoryNode) throws IOException{
+			
+		if(memoryNode == null) return;
+		System.out.println(memoryNode.getX() + " " + memoryNode.getY());
+		if(memoryNode.getLeft() != null){
+			imprimir(memoryNode.getLeft());
+		}
+		if(memoryNode.getRight() != null){
+			imprimir(memoryNode.getRight());
+		}
+		
+	}
+	
 	static public double[] puntoMasCercano(ArrayList<double[]> puntos,
 			double[] q) {
 		double[] puntoMasCerca = new double[2];

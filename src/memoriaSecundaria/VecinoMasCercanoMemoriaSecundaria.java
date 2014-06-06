@@ -2,8 +2,6 @@ package memoriaSecundaria;
 
 import java.io.IOException;
 
-import node.Node;
-
 public class VecinoMasCercanoMemoriaSecundaria {
 	private double[] mejorActual;
 	private double distActual;
@@ -11,6 +9,7 @@ public class VecinoMasCercanoMemoriaSecundaria {
 
 	public double[] vecinoMasCercano(MemoryNode root, double[] q) throws IOException {
 		comparaciones = 0;
+		mejorActual = new double[2];
 		MemoryNode nodoDondeEstaQ = encontrarHojaDondeEstaQ(root, q);
 		buscarMejorSolucion(nodoDondeEstaQ, q);
 		return mejorActual;

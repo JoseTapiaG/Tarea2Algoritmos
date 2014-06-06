@@ -1,12 +1,10 @@
 package memoriaSecundaria;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class MemoryNode {
-	private final static int bufferSize = 42;
+	private final static int bufferSize = 54;
 	private long rightPos;
 	private long leftPos;
 	private double x;
@@ -28,6 +26,7 @@ public class MemoryNode {
 		this.rightPos = rightPos;
 		this.leftPos = leftPos;
 		this.visitado = 0;
+		this.padrePos = -1;
 		this.manager.writeBuff(this.toBuff(), this.pos);
 	}
 	
@@ -45,6 +44,22 @@ public class MemoryNode {
 		this.padrePos = padrePos;
 		this.manager.writeBuff(this.toBuff(), this.pos);
 	}
+	
+	public MemoryNode(double x, double y, char leaf, long rightPos, long leftPos, int visitado, long padrePos, long pos)
+			throws IOException {
+		isLeaf = leaf;
+		this.x = x;
+		this.y = y;
+		
+		// Como el archivo no puede tener posiciones negativas, un numero
+		// negativo es el null
+		this.rightPos = rightPos;
+		this.leftPos = leftPos;
+		this.visitado = visitado;
+		this.padrePos = padrePos;
+		this.pos = pos;
+		this.manager.writeBuff(this.toBuff(), this.pos);
+	}
 
 	// esto hay que hacerlo apenas esté creado el memory manager
 	public static void setMemoryManager(MemoryManager man) {
@@ -60,8 +75,8 @@ public class MemoryNode {
 	private byte[] toBuff() {
 		// orden de nodo: posLeft, pos, posRight, x, y, isleaf
 		byte[] b = new byte[bufferSize];
-		ByteBuffer buff = null;
-		buff.wrap(b);
+		ByteBuffer buff = ByteBuffer.allocate(bufferSize);
+		buff = ByteBuffer.wrap(b);
 		buff.position(0);
 		buff.putLong(this.leftPos);
 		buff.putLong(this.pos);
@@ -78,8 +93,8 @@ public class MemoryNode {
 
 	private static MemoryNode getNodeFromBuff(byte[] b) throws IOException {
 		// orden de nodo: posLeft, pos, posRight, x, y, isleaf
-		ByteBuffer buff = null;
-		buff.wrap(b);
+		ByteBuffer buff = ByteBuffer.allocate(bufferSize);
+		buff = ByteBuffer.wrap(b);
 		buff.position(0);
 		long posLeft, posRight, pos;
 		double x, y;
@@ -94,7 +109,7 @@ public class MemoryNode {
 		isLeaf = buff.getChar();
 		visitado = buff.getInt();
 		padrePos = buff.getLong();
-		MemoryNode n = new MemoryNode(x, y, isLeaf, posRight, posLeft, visitado, padrePos);
+		MemoryNode n = new MemoryNode(x, y, isLeaf, posRight, posLeft, visitado, padrePos, pos);
 		return n;
 	}
 
@@ -183,16 +198,18 @@ public class MemoryNode {
 		return padrePos;
 	}
 
-	public void setPadrePos(long padre) {
+	public void setPadrePos(long padre) throws IOException {
 		this.padrePos = padre;
+		this.manager.writeBuff(this.toBuff(), this.pos);
 	}
 
 	public int getVisitado() {
 		return visitado;
 	}
 
-	public void setVisitado(int visitado) {
+	public void setVisitado(int visitado) throws IOException {
 		this.visitado = visitado;
+		this.manager.writeBuff(this.toBuff(), this.pos);
 	}
 
 }
